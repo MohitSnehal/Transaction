@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
+    <script src="get_sum.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+    <h1>Transactions Portal</h1>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Choose a tab :</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="homepage.html">Home</a></li>
+                <li ><a href="get_transaction_by_type.html">Transactions By Type</a></li>
+                <li><a href="#">Add Transaction</a></li>
+                <li class="active"><a href="get_sum.html">Get Sum</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <div class = "row">
+        <p> <h3>Get sum for id : </h3> </p>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="transaction_id_for_sum">Transaction id </label>
+                    <input id="transaction_id_for_sum" type="text" name="transaction_id_for_sum" class="form-control" placeholder="Enter transaction id " >
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <input id="submit-btn-get-by-id" type="button" class="btn btn-success btn-send" value="Get">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+        <p> <h3>Sum : </h3> <label id="sum_label" name="sum_label"> </label> </p>
+</div>
+</div>
+
+</body>
+</html>
