@@ -1,2 +1,0 @@
-# Transaction
-Assignment submission
