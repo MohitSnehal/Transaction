@@ -45,11 +45,12 @@ public class TransactionServiceImpl implements TransactionService {
     public void createTransaction(Long id, CreateTransactionRequest request) throws Exception{
         log.info("started createTransaction :: {} {}",id,request);
         if(null == id){
-            log.error("Transaction id found null");
+            log.error("Transaction id found null {} {}",id,request);
             throw new BadRequestException("Transaction id can not be null");
         }
         Optional<TransactionModel> optionalTransactionModel = transactionRepository.findById(id);
         if(optionalTransactionModel.isPresent()){
+            log.error("Transaction already exists {} {}",id,request);
             throw new InvalidRequestException("Transaction already exists");
         }
         createTransactionHelper(id,request);
@@ -65,10 +66,10 @@ public class TransactionServiceImpl implements TransactionService {
                     .build();
             transactionRepository.save(transactionModel);
         } catch (DataIntegrityViolationException e){
-            log.error("{}",e);
+            log.error("Foreign key constraint violation for {} {} {}",id,request,e);
             throw new InvalidRequestException("Parent id is invalid");
         } catch (Exception e){
-            log.error("{}",e);
+            log.error("Error for {} {} {}",id,request,e);
             throw e;
         }
     }
@@ -76,11 +77,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public GetSumResponse getSum(Long id) throws Exception {
         if(null == id){
+            log.error("Transaction Id should not be null. {}");
             throw new BadRequestException("Transaction Id should not be null.");
         }
 
         Optional<TransactionModel> transactionModel = transactionRepository.findById(id);
         if(!transactionModel.isPresent()){
+            log.error("Entity not found for id : " + id);
             throw new EntityNotFoundException("Entity not found for id : " + id);
         }
 
@@ -92,6 +95,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PaginatedTransactionResponse getByTransactionType(String type, Integer pageNumber, Integer pageSize) throws Exception {
         if(null == type || type.isEmpty()){
+            log.error("Type can not be null.");
             throw new BadRequestException("Type can not be null.");
         }
 

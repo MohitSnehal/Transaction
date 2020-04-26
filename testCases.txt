@@ -1,0 +1,168 @@
+1. GET /transactionservice/transaction/$transaction_id API
+    i. For existing transaction id
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/transaction/1'
+        Expected Response :
+            {
+                "payload": {
+                    "id": 1,
+                    "amount": 100.0,
+                    "type": "sales",
+                    "parentId": null
+                },
+                "success": true
+            }
+    ii. For null transaction id
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/transaction/ '
+        Expected Response :
+            {
+                "payload": {
+                    "message": "BadRequest",
+                    "details": "Transaction Id should not be null."
+                },
+                "success": false
+            }
+    iii. For transaction id which is not in DB
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/transaction/12 '
+        Expected Response :
+           {
+                "payload": {
+                    "message": "EntityNotFound",
+                    "details": "Entity not found for id : 12"
+                },
+                "success": false
+            }
+
+2. GET /transactionservice/types/$type API
+     i. For type which has records in DB
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/type/Debit'
+        Expected Response :
+            {
+                "payload": {
+                    "transactionResponses": [
+                        {
+                            "id": 3,
+                            "amount": 100.0,
+                            "type": "credit",
+                            "parentId": 1
+                        },
+                        {
+                            "id": 4,
+                            "amount": 100.0,
+                            "type": "credit",
+                            "parentId": 2
+                        }
+                    ],
+                    "pageNumber": 1,
+                    "pageSize": 10
+                },
+                "success": true
+            }
+    ii. For type which has no records in DB
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/type/NotExists'
+        Expected Response :
+            {
+                "payload": {
+                    "transactionResponses": [],
+                    "pageNumber": 1,
+                    "pageSize": 10
+                },
+                "success": true
+            }
+
+3. GET /transactionservice/sum/$transaction_id API
+     i. For valid existing id
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/sum/1'
+        Expected Response :
+            {
+                "payload": {
+                    "sum": 400.0
+                },
+                "success": true
+            }
+
+    ii. For invalid id which doesn't exist
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/sum/12'
+        Expected Response :
+            {
+                "payload": {
+                    "message": "EntityNotFound",
+                    "details": "Entity not found for id : 12"
+                },
+                "success": false
+            }
+    iii. For no transaction id
+        cURL request :
+            curl --location --request GET 'localhost:8080/transactionservice/sum/ '
+        Expected Response :
+            {
+                "payload": {
+                    "message": "BadRequest",
+                    "details": "Transaction Id should not be null."
+                },
+                "success": false
+            }
+
+
+3. PUT /transactionservice/transaction/$transaction_id  API
+     i. Successful addition of transaction:
+        cURL request :
+            curl --location --request PUT 'localhost:8080/transactionservice/transaction/1' \
+                --header 'Content-Type: application/json' \
+                --header ': ' \
+                --header 'Content-Type: text/plain' \
+                --data-raw '{
+                    "amount" : 100,
+                    "type" : "credit",
+                    "parentId":2
+                }'
+        Expected Response :
+           {
+                "payload": "Success",
+                "success": true
+            }
+
+    ii. For transaction id which already exists
+        cURL request :
+            curl --location --request PUT 'localhost:8080/transactionservice/transaction/1' \
+            --header 'Content-Type: application/json' \
+            --header ': ' \
+            --header 'Content-Type: text/plain' \
+            --data-raw '{
+                "amount" : 100,
+                "type" : "credit",
+                "parentId":2
+            }'
+        Expected Response :
+            {
+                "payload": {
+                    "message": "Invalid Request",
+                    "details": "Transaction already exists"
+                },
+                "success": false
+            }
+    iii. For no transaction id
+        cURL request :
+            curl --location --request PUT 'localhost:8080/transactionservice/transaction/ ' \
+            --header 'Content-Type: application/json' \
+            --header ': ' \
+            --header 'Content-Type: text/plain' \
+            --data-raw '{
+                "amount" : 100,
+                "type" : "credit",
+                "parentId":2
+            }'
+        Expected Response :
+            {
+                "payload": {
+                    "message": "BadRequest",
+                    "details": "Transaction id can not be null"
+                },
+                "success": false
+            }
