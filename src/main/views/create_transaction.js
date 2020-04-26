@@ -41,12 +41,16 @@ $(function () {
             fetch(url)
                 .then(response => response.json())
                 .then(function (response){
-                    let data = response.payload;
-                    console.log(data);
-                    document.getElementById("transaction_id_create").value = (data.id);
-                    document.getElementById("amount_create").value = (data.amount);
-                    document.getElementById("type_create").value =  (data.type);
-                    document.getElementById("parent_id_create").value = (data.parentId);
+                    if(!response.success) {
+                        alert(response.payload.details);
+                    } else {
+                        let data = response.payload;
+                        console.log(data);
+                        document.getElementById("transaction_id_create").value = (data.id);
+                        document.getElementById("amount_create").value = (data.amount);
+                        document.getElementById("type_create").value =  (data.type);
+                        document.getElementById("parent_id_create").value = (data.parentId);
+                    }
                 });
         }
     })

@@ -32,36 +32,37 @@
 <div class="container">
     <div class = "row">
         <p> <h3>Get transaction by type : </h3> </p>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="transaction_type">Transaction by type </label>
-                    <input id="transaction_type" type="text" class="form-control" placeholder="Enter transaction type " >
-                    <div class="help-block with-errors"></div>
+        <form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="transaction_type">Transaction by type </label>
+                        <input id="transaction_type" type="text" class="form-control" placeholder="Enter transaction type " required="required">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="page_number">Page number </label>
+                        <input id="page_number" type="text" class="form-control" placeholder="Enter page number... " >
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="page_size">Page size</label>
+                        <input id="page_size" type="text" class="form-control" placeholder="Enter page size... " >
+                        <div class="help-block with-errors"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="page_number">Page number </label>
-                    <input id="page_number" type="text" class="form-control" placeholder="Enter page number... " >
-                    <div class="help-block with-errors"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="page_size">Page size</label>
-                    <input id="page_size" type="text" class="form-control" placeholder="Enter page size... " >
-                    <div class="help-block with-errors"></div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <input id="submit-btn-get-by-type" type="button" class="btn btn-success btn-send" value="Get">
+            <div class="row">
+                <div class="col-md-12">
+                    <input id="submit-btn-get-by-type" type="button" class="btn btn-success btn-send" value="Get">
+                </div>
             </div>
-        </div>
-
+        </form>
     </div>
 </div>
 

@@ -23,8 +23,7 @@ public class TransactionRepositoryCustomImpl implements TransactionRepositoryCus
         CriteriaQuery<TransactionModel> paginatedQuery = criteriaBuilder.createQuery(TransactionModel.class);
         Root root = paginatedQuery.from(TransactionModel.class);
 
-        //added % so that more results show up
-        Predicate predicate = criteriaBuilder.like(root.get("type"), "%" + type + "%");
+        Predicate predicate = criteriaBuilder.like(root.get("type"),  type);
         paginatedQuery.where(predicate);
         TypedQuery<TransactionModel> typedPaginatedQuery = entityManager.createQuery(paginatedQuery);
         typedPaginatedQuery.setFirstResult((pageNumber - 1) * pageSize);

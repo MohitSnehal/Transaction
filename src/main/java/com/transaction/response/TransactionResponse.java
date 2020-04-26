@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -22,13 +20,13 @@ public class TransactionResponse {
     private String type;
     private Long parentId;
 
-    public static List<TransactionResponse> from(List<TransactionModel> transactionModelList) {
+    public static List<TransactionResponse> transform(List<TransactionModel> transactionModelList) {
         return transactionModelList.stream()
-                .map(transactionModel -> from(transactionModel))
+                .map(TransactionResponse::transform)
                 .collect(Collectors.toList());
     }
 
-    public static TransactionResponse from(TransactionModel transactionModel) {
+    public static TransactionResponse transform(TransactionModel transactionModel) {
         return TransactionResponse.builder()
                 .id(transactionModel.getId())
                 .amount(transactionModel.getAmount())

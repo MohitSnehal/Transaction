@@ -1,5 +1,6 @@
 package com.transaction.service.impl;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import com.transaction.constants.Constant;
 import com.transaction.exceptions.BadRequestException;
 import com.transaction.exceptions.InvalidRequestException;
@@ -10,13 +11,15 @@ import com.transaction.response.GetSumResponse;
 import com.transaction.response.PaginatedTransactionResponse;
 import com.transaction.response.TransactionResponse;
 import com.transaction.service.TransactionService;
-import org.apache.tomcat.util.bcel.Const;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
+@Slf4j
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -26,6 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionResponse getTransactionById(Long id) throws Exception{
         if(null == id){
+            log.error("BadRequestException id is null.");
             throw new BadRequestException("Transaction Id should not be null.");
         }
 
@@ -34,38 +38,38 @@ public class TransactionServiceImpl implements TransactionService {
             throw new EntityNotFoundException("Entity not found for id : " + id);
         }
 
-        return TransactionResponse.from(transactionModel.get());
+        return TransactionResponse.transform(transactionModel.get());
     }
 
     @Override
     public void createTransaction(Long id, CreateTransactionRequest request) throws Exception{
-        TransactionModel transactionModel = null;
+        log.info("started createTransaction :: {} {}",id,request);
         if(null == id){
-            transactionModel = TransactionModel.builder()
+            log.error("Transaction id found null");
+            throw new BadRequestException("Transaction id can not be null");
+        }
+        Optional<TransactionModel> optionalTransactionModel = transactionRepository.findById(id);
+        if(optionalTransactionModel.isPresent()){
+            throw new InvalidRequestException("Transaction already exists");
+        }
+        createTransactionHelper(id,request);
+    }
+
+    private void createTransactionHelper(Long id, CreateTransactionRequest request) throws Exception {
+        try{
+            TransactionModel transactionModel = TransactionModel.builder()
+                    .id(id)
                     .amount(request.getAmount())
                     .type(request.getType())
                     .parentId(request.getParentId())
                     .build();
-        } else {
-            Optional<TransactionModel> optionalTransactionModel = transactionRepository.findById(id);
-            if(optionalTransactionModel.isPresent()){
-                transactionModel = optionalTransactionModel.get();
-                transactionModel.setAmount(request.getAmount());
-                transactionModel.setParentId(request.getParentId());
-                transactionModel.setType(request.getType());
-            } else{
-                throw new EntityNotFoundException("No transaction found for id : " + id);
-            }
-        }
-        if(request.getParentId() != null){
-            checkParentTransactionExists(request.getParentId());
-        }
-        transactionRepository.save(transactionModel);
-    }
-
-    private void checkParentTransactionExists(Long parentId) throws Exception {
-        if(!transactionRepository.findById(parentId).isPresent()) {
-            throw new InvalidRequestException("Invalid parent transaction id");
+            transactionRepository.save(transactionModel);
+        } catch (DataIntegrityViolationException e){
+            log.error("{}",e);
+            throw new InvalidRequestException("Parent id is invalid");
+        } catch (Exception e){
+            log.error("{}",e);
+            throw e;
         }
     }
 
@@ -97,7 +101,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         return PaginatedTransactionResponse.builder()
                 .transactionResponses( (transactionModels != null && !transactionModels.isEmpty())
-                        ? TransactionResponse.from(transactionModels)
+                        ? TransactionResponse.transform(transactionModels)
                         : new LinkedList<TransactionResponse>())
                 .pageNumber(finalPageNumber)
                 .pageSize(finalPageSize)
