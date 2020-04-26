@@ -2,6 +2,7 @@ package com.transaction.service.impl;
 
 import com.transaction.constants.Constant;
 import com.transaction.exceptions.BadRequestException;
+import com.transaction.exceptions.InvalidRequestException;
 import com.transaction.model.TransactionModel;
 import com.transaction.repository.TransactionRepository;
 import com.transaction.request.CreateTransactionRequest;
@@ -37,8 +38,35 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void createTransaction(Long id, CreateTransactionRequest request) {
+    public void createTransaction(Long id, CreateTransactionRequest request) throws Exception{
+        TransactionModel transactionModel = null;
+        if(null == id){
+            transactionModel = TransactionModel.builder()
+                    .amount(request.getAmount())
+                    .type(request.getType())
+                    .parentId(request.getParentId())
+                    .build();
+        } else {
+            Optional<TransactionModel> optionalTransactionModel = transactionRepository.findById(id);
+            if(optionalTransactionModel.isPresent()){
+                transactionModel = optionalTransactionModel.get();
+                transactionModel.setAmount(request.getAmount());
+                transactionModel.setParentId(request.getParentId());
+                transactionModel.setType(request.getType());
+            } else{
+                throw new EntityNotFoundException("No transaction found for id : " + id);
+            }
+        }
+        if(request.getParentId() != null){
+            checkParentTransactionExists(request.getParentId());
+        }
+        transactionRepository.save(transactionModel);
+    }
 
+    private void checkParentTransactionExists(Long parentId) throws Exception {
+        if(!transactionRepository.findById(parentId).isPresent()) {
+            throw new InvalidRequestException("Invalid parent transaction id");
+        }
     }
 
     @Override

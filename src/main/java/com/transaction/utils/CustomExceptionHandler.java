@@ -3,6 +3,7 @@ package com.transaction.utils;
 import com.transaction.dto.ResponseDTO;
 import com.transaction.exceptions.BadRequestException;
 import com.transaction.exceptions.EntityAlreadyExistsException;
+import com.transaction.exceptions.InvalidRequestException;
 import com.transaction.response.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +73,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             errorResponse = new ErrorResponse("EntityExists", ex.getMessage());
             LOGGER.error("EntityExistsException {}", ex);
             httpStatus = HttpStatus.BAD_REQUEST;
-        } else {
+        } else if(ex instanceof InvalidRequestException){
+           errorResponse = new ErrorResponse("Invalid Request", ex.getMessage());
+           LOGGER.error("InvalidRequestException {}", ex);
+           httpStatus = HttpStatus.BAD_REQUEST ;
+       } else {
            errorResponse = new ErrorResponse("Something went wrong!", ex.getMessage());
            LOGGER.error("EntityExistsException {}", ex);
            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

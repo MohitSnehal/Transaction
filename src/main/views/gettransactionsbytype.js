@@ -3,16 +3,25 @@ $(function () {
     $('#submit-btn-get-by-type').on('click', function (e) {
 
         var type =  $('#transaction_type').val();
+        var pageNumber = $('#page_number').val();
+        var pageSize = $('#page_size').val();
         var url = "http://localhost:8080/transactionservice/type/" + type;
+        if(pageNumber && pageSize){
+            console.log("adding page number and page size");
+            url += "?pageNumber=" + pageNumber + "&pageSize=" + pageSize;
+        }
         fetch(url)
             .then(response => response.json())
             .then(function (response){
-                let data = response.payload.transactionResponses;
-                $("#table_type").find("tr:gt(0)").remove();
-                data.forEach(function (element, i) {
-                    addRow(0,element.id,element.amount,element.type,element.parentId);
-                });
-
+                if(!response.success) {
+                    alert(response.payload.details);
+                } else{
+                    let data = response.payload.transactionResponses;
+                    $("#table_type").find("tr:gt(0)").remove();
+                    data.forEach(function (element, i) {
+                        addRow(0,element.id,element.amount,element.type,element.parentId);
+                    });
+                }
             });
 
     })
@@ -27,11 +36,15 @@ $(function () {
             fetch(url)
                 .then(response => response.json())
                 .then(function (response){
-                    let data = response.payload.transactionResponses;
-                    $("#table_type").find("tr:gt(0)").remove();
-                    data.forEach(function (element, i) {
-                        addRow(0,element.id,element.amount,element.type,element.parentId);
-                    });
+                    if(!response.success) {
+                        alert(response.payload.details);
+                    } else{
+                        let data = response.payload.transactionResponses;
+                        $("#table_type").find("tr:gt(0)").remove();
+                        data.forEach(function (element, i) {
+                            addRow(0,element.id,element.amount,element.type,element.parentId);
+                        });
+                    }
                 });
         }
     })

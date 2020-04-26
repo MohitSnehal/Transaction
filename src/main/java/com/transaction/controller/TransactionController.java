@@ -27,7 +27,7 @@ public class TransactionController {
 
     @Async
     @RequestMapping(method = RequestMethod.PUT, value = "/transaction/{id}")
-    public CompletableFuture<ResponseDTO> createTransaction(@PathVariable final Long id ,  @RequestBody @Valid CreateTransactionRequest request) throws Exception {
+    public CompletableFuture<ResponseDTO> createTransaction(@PathVariable(required = false) final Long id ,  @RequestBody @Valid CreateTransactionRequest request) throws Exception {
         ResponseDTO responseDTO = new ResponseDTO();
         transactionService.createTransaction(id,request);
         responseDTO.setPayload("Success");

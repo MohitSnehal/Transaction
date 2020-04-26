@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>Transactions Portal</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -22,7 +22,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="homepage.html">Home</a></li>
                 <li class="active"><a href="get_transaction_by_type.html">Transactions By Type</a></li>
-                <li><a href="#">Add Transaction</a></li>
+                <li><a href="create_transaction.html">Add Transaction</a></li>
                 <li><a href="get_sum.html">Get Sum</a></li>
             </ul>
         </div>
@@ -37,6 +37,20 @@
                 <div class="form-group">
                     <label for="transaction_type">Transaction by type </label>
                     <input id="transaction_type" type="text" class="form-control" placeholder="Enter transaction type " >
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="page_number">Page number </label>
+                    <input id="page_number" type="text" class="form-control" placeholder="Enter page number... " >
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="page_size">Page size</label>
+                    <input id="page_size" type="text" class="form-control" placeholder="Enter page size... " >
                     <div class="help-block with-errors"></div>
                 </div>
             </div>

@@ -8,7 +8,7 @@ import com.transaction.response.TransactionResponse;
 public interface TransactionService {
 
     TransactionResponse getTransactionById(Long id)  throws Exception;
-    void createTransaction(Long id, CreateTransactionRequest request);
+    void createTransaction(Long id, CreateTransactionRequest request) throws Exception;
     GetSumResponse getSum(Long id) throws Exception;
     PaginatedTransactionResponse getByTransactionType(String type, Integer pageNumber, Integer pageSize) throws Exception;
 

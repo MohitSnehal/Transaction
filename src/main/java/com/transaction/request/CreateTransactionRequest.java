@@ -13,4 +13,5 @@ public class CreateTransactionRequest {
 
     private Double amount;
     private Long parentId;
+    private String type;
 }

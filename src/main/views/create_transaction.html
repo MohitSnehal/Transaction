@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Transactions Portal</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
+    <script src="create_transaction.js"></script>
+</head>
+<body>
+
+    <div class="jumbotron text-center">
+        <h1>Transactions Portal</h1>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Choose a tab :</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="homepage.html">Home</a></li>
+                    <li ><a href="get_transaction_by_type.html">Transactions By Type</a></li>
+                    <li class="active"><a href="create_transaction.html">Add Transaction</a></li>
+                    <li><a href="get_sum.html">Get Sum</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    </div>
+
+    <div class="container">
+        <div class = "row">
+            <p> <h3>Create/Update Transaction : </h3> </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="transaction_id_create">Transaction id </label>
+                        <input id="transaction_id_create" type="text" name="transaction_id_create" class="form-control" placeholder="Enter transaction id for update..." >
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="amount_create">Amount </label>
+                        <input id="amount_create" type="text" name="amount_create" class="form-control" placeholder="Enter amount ..." required="required">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="type_create">Type </label>
+                        <input id="type_create" type="text" name="type_create" class="form-control" placeholder="Enter transaction type ..." >
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="parent_id_create">Parent id </label>
+                        <input id="parent_id_create" type="text" name="parent_id_create" class="form-control" placeholder="Enter parent id ... ">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <input id="submit-btn-create" type="button" class="btn btn-success btn-send" value="Submit">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
